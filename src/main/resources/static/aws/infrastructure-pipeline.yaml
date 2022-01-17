@@ -21,39 +21,3 @@ steps:
     PathtoPublish: '$(System.DefaultWorkingDirectory)/target'
     ArtifactName: 'JwtAwsLabArtifact'
     publishLocation: 'Container'
-- task: CmdLine@2
-  displayName: 'Listingfase'
-  inputs:
-    script: |
-      echo Listing files
-      ls
-    workingDirectory: '$(System.DefaultWorkingDirectory)/target'
-- task: DownloadSecureFile@1
-  displayName: SecureFileFase
-  name: cred
-  inputs:
-    secureFile: 'mtr_dev_usr_accessKeys.csv'
-- task: CmdLine@2
-  displayName: 'CheckingSecureFileFase'
-  inputs:
-    script: |
-      echo Printing secure file path
-      
-      echo $(cred.secureFilePath)
-      
-      echo Printing secure file content
-      
-      cat $(cred.secureFilePath)
-      
-      echo Printing enviroment variable
-      
-      echo $AWS_PROFILE
-- task: CmdLine@2
-  displayName: 'CheckingAWSProfileFase'
-  inputs:
-    script: |
-      echo Setting aws profile
-      
-      aws configure import --csv file://$(cred.secureFilePath)
-      
-      aws configure list-profiles
