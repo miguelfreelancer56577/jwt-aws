@@ -28,23 +28,3 @@ steps:
       echo Listing files
       ls
     workingDirectory: '$(System.DefaultWorkingDirectory)/target'
-- task: DownloadSecureFile@1
-  displayName: SecureFileFase
-  name: cred
-  inputs:
-    secureFile: 'mtr_dev_usr_accessKeys.csv'
-- task: CmdLine@2
-  displayName: 'CheckingSecureFileFase'
-  inputs:
-    script: |
-      echo Printing secure file path
-      
-      echo $(cred.secureFilePath)
-      
-      echo Printing secure file content
-      
-      cat $(cred.secureFilePath)
-      
-      echo Printing enviroment variable
-      
-      $AWS_PROFILE
