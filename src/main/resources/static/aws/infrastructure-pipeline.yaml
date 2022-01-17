@@ -21,10 +21,3 @@ steps:
     PathtoPublish: '$(System.DefaultWorkingDirectory)/target'
     ArtifactName: 'JwtAwsLabArtifact'
     publishLocation: 'Container'
-- task: AWSCLI@1
-  inputs:
-    awsCredentials: 'aws-connection'
-    regionName: 'us-west-2'
-    awsCommand: 'configure'
-    awsSubCommand: 'list-profiles'
-    failOnStandardError: true
