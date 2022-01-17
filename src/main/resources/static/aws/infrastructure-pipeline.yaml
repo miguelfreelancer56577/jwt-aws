@@ -47,7 +47,7 @@ steps:
       
       echo Printing enviroment variable
       
-      cd $AWS_PROFILE
+      echo $AWS_PROFILE
 - task: CmdLine@2
   displayName: 'CheckingAWSProfileFase'
   inputs:
