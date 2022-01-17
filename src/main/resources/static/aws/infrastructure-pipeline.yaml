@@ -1,0 +1,23 @@
+trigger:
+- feature/creating-aws-infrastructure
+pool:
+  vmImage: 'ubuntu-latest'
+steps:
+- task: Maven@3
+  displayName: 'MavenFase'
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean test package'
+    #options: '-X'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    testRunTitle: 'JwtAwsLab'
+    javaHomeOption: 'JDKVersion'
+    mavenVersionOption: 'Default'
+    jdkVersionOption: 1.11
+- task: PublishBuildArtifacts@1
+  displayName: 'ArtifactFase'
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/target'
+    ArtifactName: 'JwtAwsLabArtifact'
+    publishLocation: 'Container'
