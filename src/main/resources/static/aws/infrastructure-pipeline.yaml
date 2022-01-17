@@ -25,6 +25,6 @@ steps:
   inputs:
     awsCredentials: 'aws-connection'
     regionName: 'us-west-2'
-    awsCommand: 's3'
-    awsSubCommand: 'ls'
+    awsCommand: 'configure'
+    awsSubCommand: 'list-profiles'
     failOnStandardError: true
