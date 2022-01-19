@@ -8,10 +8,10 @@ isReserved(){
 	#checking if the resource already exists
 	rs=$(aws docdb describe-db-clusters --query 'length(DBClusters[?DBClusterIdentifier==`'$clusterName'`].DBClusterIdentifier)')
 	if [ $rs != 0 ]; then
-		echo "The resource already exists."
+		echo "######################### The resource already exists. #########################"
 		return 0
 	else
-		echo "The resource doesnt exist."
+		echo "######################### The resource doesnt exist. #########################"
 		return 1
 	fi
 }
@@ -19,7 +19,7 @@ isReserved(){
 createDocDBCluster(){
 
 	aws docdb create-db-cluster \
-		    --db-cluster-identifier $clusterName \
+		--db-cluster-identifier $clusterName \
 	    --engine docdb \
 	    --master-username $AWS_DOCDB_USER \
 	    --master-user-password $AWS_DOCDB_PASS \
@@ -28,6 +28,7 @@ createDocDBCluster(){
 		--tags Key=environment,Value=$AWS_ENV \
 		--preferred-maintenance-window Sun:20:30-Sun:21:00 \
 		--no-deletion-protection \
+		--db-cluster-parameter-group-name dev-param-grp\
 		--source-region $AWS_REGION \
 		--output text \
 		--profile $AWS_PROFILE
@@ -37,13 +38,12 @@ createDocDBCluster(){
 attachInstances(){
 
 	rs='None'
-	echo "Creating instances."	
+	echo "######################### Creating instance. #########################"	
 	while [ $rs != 'available' ]
 	do
-	   echo "Checking status."	
+	   echo "######################### Cluster status. $rs #########################"
 	   sleep 10
-	   rs=$(aws docdb describe-db-clusters --query 'DBClusters[?DBClusterIdentifier==`dev-cluster`].Status | [0]' --output text)
-	   echo "Cluster status. $rs"
+	   rs=$(aws docdb describe-db-clusters --query 'DBClusters[?DBClusterIdentifier==`'$clusterName'`].Status | [0]' --output text)
 	done
 	aws docdb create-db-instance \
     --db-cluster-identifier $clusterName \
@@ -59,13 +59,13 @@ main(){
 	#checking if the resource already exists
 	isReserved
 	if [ $? == 1 ]; then
-		echo "Creting documentdb cluster"
+		echo "######################### Creting documentdb cluster #########################"
 		createDocDBCluster
 		if [ $? == 0 ]; then
-			echo "Documentdb cluster created successfully."
+			echo "######################### Documentdb cluster created successfully. #########################"
 			attachInstances
 			if [ $? == 0 ]; then
-			echo "Instance attached properly to the cluster."
+			echo "######################### Instance attached properly to the cluster. #########################"
 		fi
 		fi
 		
