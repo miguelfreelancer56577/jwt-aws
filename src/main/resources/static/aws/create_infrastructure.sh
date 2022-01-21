@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#declaring variables to be used
+#declaring variables
 
 clusterName=$AWS_ENV'-cluster'
 
