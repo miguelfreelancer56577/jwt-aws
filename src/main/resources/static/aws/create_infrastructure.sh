@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#declaring variables
+#declaring variables to be used
 clusterName=$AWS_ENV'-cluster'
 
 isReserved(){
